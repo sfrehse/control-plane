@@ -2,20 +2,20 @@ package controller
 
 import (
 	"context"
+	"control-plane/models"
+	"control-plane/queue"
+	"control-plane/storage"
+	"control-plane/worker"
 	"github.com/stretchr/testify/assert"
-	"ksqldb-trace/models"
-	queue2 "ksqldb-trace/queue"
-	"ksqldb-trace/storage"
-	"ksqldb-trace/worker"
 	"strings"
 	"testing"
 )
 
 func TestManager_CreateNewGenerationTasks(t *testing.T) {
 	storageManager := storage.NewRedisManager()
-	queue := queue2.NewRedisQueue(storageManager, worker.NewFactory(storageManager))
+	redisQueue := queue.NewRedisQueue(storageManager, worker.NewFactory(storageManager))
 
-	manager := NewManager(storageManager, queue)
+	manager := NewManager(storageManager, redisQueue)
 	assert.NotNil(t, manager)
 
 	generationTask := models.GenerationTask{

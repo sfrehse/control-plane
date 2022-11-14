@@ -1,8 +1,8 @@
 package worker
 
 import (
+	"control-plane/storage"
 	"github.com/adjust/rmq/v5"
-	"ksqldb-trace/storage"
 )
 
 type Factory interface {

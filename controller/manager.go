@@ -2,11 +2,11 @@ package controller
 
 import (
 	"context"
+	"control-plane/models"
+	"control-plane/queue"
+	"control-plane/storage"
 	"fmt"
 	log "github.com/sirupsen/logrus"
-	"ksqldb-trace/models"
-	"ksqldb-trace/queue"
-	"ksqldb-trace/storage"
 )
 
 type Controller struct {

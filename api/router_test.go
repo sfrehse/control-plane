@@ -2,14 +2,14 @@ package api
 
 import (
 	"bytes"
+	"control-plane/controller"
+	"control-plane/models"
+	"control-plane/queue"
+	"control-plane/storage"
+	"control-plane/worker"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
-	"ksqldb-trace/controller"
-	"ksqldb-trace/models"
-	"ksqldb-trace/queue"
-	"ksqldb-trace/storage"
-	"ksqldb-trace/worker"
 	"net/http/httptest"
 	"testing"
 )

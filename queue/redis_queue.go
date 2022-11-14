@@ -2,12 +2,13 @@ package queue
 
 import (
 	"context"
+	"control-plane/models"
+	"control-plane/storage"
+	"control-plane/worker"
 	"github.com/adjust/rmq/v5"
 	"github.com/go-redis/redis/v8"
 	log "github.com/sirupsen/logrus"
-	"ksqldb-trace/models"
-	"ksqldb-trace/storage"
-	"ksqldb-trace/worker"
+
 	"time"
 )
 

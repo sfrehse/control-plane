@@ -2,10 +2,10 @@ package storage
 
 import (
 	"context"
+	"control-plane/models"
 	"fmt"
 	"github.com/go-redis/redis/v8"
 	log "github.com/sirupsen/logrus"
-	"ksqldb-trace/models"
 	"time"
 )
 

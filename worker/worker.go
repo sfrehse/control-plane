@@ -2,10 +2,10 @@ package worker
 
 import (
 	"context"
+	"control-plane/models"
+	"control-plane/storage"
 	"github.com/adjust/rmq/v5"
 	log "github.com/sirupsen/logrus"
-	"ksqldb-trace/models"
-	"ksqldb-trace/storage"
 )
 
 type Worker struct {

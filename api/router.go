@@ -2,13 +2,13 @@ package api
 
 import (
 	"context"
+	"control-plane/controller"
+	"control-plane/models"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redis/redis_rate/v9"
 	log "github.com/sirupsen/logrus"
-	"ksqldb-trace/controller"
-	"ksqldb-trace/models"
 	"net/http"
 )
 

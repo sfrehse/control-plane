@@ -2,13 +2,13 @@ package main
 
 import (
 	"context"
+	"control-plane/api"
+	"control-plane/controller"
+	"control-plane/queue"
+	"control-plane/storage"
+	"control-plane/worker"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"ksqldb-trace/api"
-	"ksqldb-trace/controller"
-	"ksqldb-trace/queue"
-	"ksqldb-trace/storage"
-	"ksqldb-trace/worker"
 )
 
 func main() {

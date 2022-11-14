@@ -2,7 +2,7 @@ package storage
 
 import (
 	"context"
-	"ksqldb-trace/models"
+	"control-plane/models"
 )
 
 type Queue interface {
