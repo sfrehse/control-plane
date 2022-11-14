@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"control-plane/models"
+	"flag"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"math/rand"
@@ -10,10 +11,13 @@ import (
 	"time"
 )
 
+var redisHost = flag.String("redis-host", "localhost", "host to redis host")
+var redisPort = flag.String("redis-port", "6379", "host to redis port")
+
 func TestRedisStorageManager(t *testing.T) {
 	ctx := context.Background()
 
-	manager := NewRedisManager()
+	manager := NewRedisManager(*redisHost, *redisPort)
 	assert.NotNil(t, manager)
 
 	generationTask := models.GenerationTask{

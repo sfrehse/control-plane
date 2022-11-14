@@ -4,9 +4,22 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:6
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v3
         with:
           go-version: '1.18.1' # The Go version to download (if necessary) and use.
-      - run: go test -race $(go list ./... | grep -v /vendor/)
+      - name: test
+        run: go test -race $(go list ./... | grep -v /vendor/)
+        env:
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
+

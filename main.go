@@ -17,9 +17,13 @@ func main() {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
-	storageManager := storage.NewRedisManager()
+	storageManager := storage.NewRedisManager(REDIS_HOST, REDIS_PORT)
 	workerFactory := worker.NewFactory(storageManager)
-	redisQueue := queue.NewRedisQueue(storageManager, workerFactory)
+	redisQueue := queue.NewRedisQueue(queue.RedisQueueConfig{
+		RedisHost:          REDIS_HOST,
+		RedisPort:          REDIS_PORT,
+		RateLimitPerMinute: 1,
+	}, storageManager, workerFactory)
 
 	ctrl := controller.NewManager(storageManager, redisQueue)
 

@@ -5,6 +5,7 @@ import (
 	"control-plane/models"
 	"control-plane/storage"
 	"control-plane/worker"
+	"fmt"
 	"github.com/adjust/rmq/v5"
 	"github.com/go-redis/redis/v8"
 	log "github.com/sirupsen/logrus"
@@ -12,7 +13,16 @@ import (
 	"time"
 )
 
+type RedisQueueConfig struct {
+	RedisHost string
+	RedisPort string
+
+	RateLimitPerMinute int
+}
+
 type RedisQueue struct {
+	RedisQueueConfig
+
 	client     *redis.Client
 	connection rmq.Connection
 	tasks      rmq.Queue
@@ -20,8 +30,9 @@ type RedisQueue struct {
 	factory    worker.Factory
 }
 
-func NewRedisQueue(manager storage.Manager, factory worker.Factory) *RedisQueue {
-	connection, err := rmq.OpenConnection("producer_consumer", "tcp", "localhost:6379", 1, nil)
+func NewRedisQueue(config RedisQueueConfig, manager storage.Manager, factory worker.Factory) *RedisQueue {
+	redisStr := fmt.Sprintf("%s:%s", config.RedisHost, config.RedisPort)
+	connection, err := rmq.OpenConnection("producer_consumer", "tcp", redisStr, 1, nil)
 	if err != nil {
 		log.Fatalf("unable to create queue: %v", err)
 		return nil
@@ -34,7 +45,7 @@ func NewRedisQueue(manager storage.Manager, factory worker.Factory) *RedisQueue 
 		return nil
 	}
 
-	return &RedisQueue{connection: connection, tasks: tasks, manager: manager, factory: factory}
+	return &RedisQueue{RedisQueueConfig: config, connection: connection, tasks: tasks, manager: manager, factory: factory}
 }
 
 func (r *RedisQueue) Enqueue(ctx context.Context, generationTask models.GenerationTask) error {

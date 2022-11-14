@@ -83,8 +83,8 @@ func (r *RedisManager) UpdateGenerationTaskStatus(ctx context.Context, id string
 
 }
 
-func NewRedisManager() *RedisManager {
-	client := redis.NewClient(&redis.Options{Addr: "localhost:6379"})
+func NewRedisManager(redisHost string, redisPort string) *RedisManager {
+	client := redis.NewClient(&redis.Options{Addr: fmt.Sprintf("%s:%s", redisHost, redisPort)})
 
 	if client == nil {
 		log.Fatalf("unable to establish connection to redis")

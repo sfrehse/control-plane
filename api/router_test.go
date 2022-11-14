@@ -7,6 +7,7 @@ import (
 	"control-plane/queue"
 	"control-plane/storage"
 	"control-plane/worker"
+	"flag"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
@@ -14,14 +15,21 @@ import (
 	"testing"
 )
 
+var redisHost = flag.String("redis-host", "localhost", "host to redis host")
+var redisPort = flag.String("redis-port", "6379", "host to redis port")
+
 func SetupRouter() *gin.Engine {
 	return gin.Default()
 }
 
 func TestRouter_CreateGenerationTask(t *testing.T) {
-	storageManager := storage.NewRedisManager()
+	storageManager := storage.NewRedisManager(*redisHost, *redisPort)
 	workerFactory := worker.NewFactory(storageManager)
-	redisQueue := queue.NewRedisQueue(storageManager, workerFactory)
+	redisQueue := queue.NewRedisQueue(queue.RedisQueueConfig{
+		RedisHost:          *redisHost,
+		RedisPort:          *redisPort,
+		RateLimitPerMinute: 1,
+	}, storageManager, workerFactory)
 
 	ctrl := controller.NewManager(storageManager, redisQueue)
 
