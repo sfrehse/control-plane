@@ -18,7 +18,7 @@ jobs:
         with:
           go-version: '1.18.1' # The Go version to download (if necessary) and use.
       - name: test
-        run: go test -race $(go list ./... | grep -v /vendor/)
+        run: go test -race $(go list ./... | grep -v /vendor/) --redis-host ${REDIS_HOST} -redis-port ${REDIS_PORT}
         env:
           REDIS_HOST: redis
           REDIS_PORT: 6379
